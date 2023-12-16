@@ -1,10 +1,6 @@
 
-24886: {"name":"AM Text 2023","config":"My config","otp":"456583"}
+45754: {"name":"AM Text 2023","config":"My config X","otp":"456583"}
 
-78231: {"name":"AM Text 2023","config":"My config","otp":"456583"}
+67752: {"name":"AM Text 2023","config":"My config X","otp":"456583"}
 
-31643: {"name":"AM Text 2023","config":"My config","otp":"456583"}
-
-83151: {"name":"AM Text 2023","config":"My config","otp":"456583"}
-
-61993: {"name":"AM Text 2023","config":"My config","otp":"456583"}
+69124: {"name":"AM Text 2023","config":"My config X","otp":"456583"}

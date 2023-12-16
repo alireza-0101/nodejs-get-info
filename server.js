@@ -16,12 +16,12 @@ app.use(
 const checkPin = (req) => {
   let {
     query: { id },
-    headers: { authorization },
+    headers: { pin },
   } = req
 
   // ! For protect info.txt file
-  if (authorization && !id?.includes("info")) {
-    return authorization == 1527
+  if (pin && !id?.includes("info")) {
+    return pin == 1527
   } else {
     return false
   }
@@ -56,7 +56,10 @@ const getTargetFile = (req, res) => {
         if (err) {
           res.send({ msg: `File does not exist! ${id}.json` }, 404)
         } else {
-          res.send({ msg: `File info getted successfully.`, data: data }, 200)
+          res.send(
+            { msg: `File info getted successfully.`, data: JSON.parse(data) },
+            200
+          )
         }
       })
     } else {
