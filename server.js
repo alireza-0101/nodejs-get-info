@@ -28,7 +28,7 @@ const checkPin = (req) => {
 }
 
 const mainRoute = (req, res) => {
-  res.send(`Welcome to my project...`, 401)
+  res.send(`Welcome to my project...`, 200)
 }
 
 const getFiles = (req, res) => {
