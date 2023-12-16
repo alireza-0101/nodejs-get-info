@@ -202,12 +202,12 @@ const deleteAllText = (req, res) => {
 }
 
 app.get("/file/get-all", getFiles)
-app.get("/file", getTargetFile)
-app.post("/file", createFile)
-app.put("/file", editFile)
-app.delete("/file", deleteFile)
+app.get("/file/get", getTargetFile)
+app.post("/file/add", createFile)
+app.put("/file/edit", editFile)
+app.delete("/file/delete", deleteFile)
 
-app.post("/text", addText)
+app.post("/text/add", addText)
 app.delete("/text/delete-all", deleteAllText)
 
 app.listen(port, () => {
