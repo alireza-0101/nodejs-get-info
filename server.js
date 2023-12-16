@@ -31,6 +31,10 @@ const mainRoute = (req, res) => {
   res.send({ msg: `Welcome to my project...` }, 200)
 }
 
+const notFound = (req, res) => {
+  res.send({ msg: `What do you want? Its not a currect url!` }, 404)
+}
+
 const getFiles = (req, res) => {
   if (checkPin(req)) {
     fs.readdir(`data`, (err, data) => {
@@ -162,7 +166,13 @@ const getText = (req, res) => {
       if (err) {
         res.send({ msg: `File does not exist!` }, 404)
       } else {
-        res.send(`File info: ${data}`, 200)
+        res.send(
+          {
+            msg: `File info getted successfully`,
+            data: `${data}`,
+          },
+          200
+        )
       }
     })
   } else {
@@ -240,6 +250,8 @@ app.get("/text/get", getText)
 app.post("/text/add", addText)
 app.delete("/text/delete-all", deleteAllText)
 
+app.get("/*", notFound)
+
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`)
+  console.log(`\n✔ Server is running.\n✔ http://localhost:${port}\n`)
 })
