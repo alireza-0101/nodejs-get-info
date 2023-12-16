@@ -28,23 +28,20 @@ const checkPin = (req) => {
 }
 
 const mainRoute = (req, res) => {
-  res.send(`Welcome to my project...`, 200)
+  res.send({ msg: `Welcome to my project...` }, 200)
 }
 
 const getFiles = (req, res) => {
   if (checkPin(req)) {
     fs.readdir(`data`, (err, data) => {
       if (err) {
-        res.send(`File does not exist!`, 404)
+        res.send({ msg: `File does not exist!` }, 404)
       } else {
-        let fileList = []
-        data.forEach((file) => fileList.push(file))
-
-        res.send(`File list: ${fileList.join(" - ")}`, 200)
+        res.send({ msg: `File list getted successfully.`, data: data }, 200)
       }
     })
   } else {
-    res.send(`Key is not currect!`, 401)
+    res.send({ msg: `Key is not currect!` }, 401)
   }
 }
 
@@ -57,16 +54,16 @@ const getTargetFile = (req, res) => {
     if (id) {
       fs.readFile(`data/${id}.json`, (err, data) => {
         if (err) {
-          res.send(`File does not exist! ${id}.json`, 404)
+          res.send({ msg: `File does not exist! ${id}.json` }, 404)
         } else {
-          res.send(`File info: ${data}`, 200)
+          res.send({ msg: `File info getted successfully.`, data: data }, 200)
         }
       })
     } else {
-      res.send(`Send me param!`, 500)
+      res.send({ msg: `Send me param!` }, 500)
     }
   } else {
-    res.send(`Key is not currect!`, 401)
+    res.send({ msg: `Key is not currect!` }, 401)
   }
 }
 
@@ -81,13 +78,13 @@ const createFile = (req, res) => {
 
     fs.appendFile(path, JSON.stringify(body), function (err) {
       if (err) {
-        res.send(`We have error: ${err}`, 500)
+        res.send({ msg: `We have error: ${err}` }, 500)
       } else {
-        res.send(`Your detailes saved. URL: /${path}`, 200)
+        res.send({ msg: `Your detailes saved. URL: /${path}` }, 200)
       }
     })
   } else {
-    res.send(`Key is not currect!`, 401)
+    res.send({ msg: `Key is not currect!` }, 401)
   }
 }
 
@@ -103,22 +100,22 @@ const editFile = (req, res) => {
 
       fs.readFile(path, (err, data) => {
         if (err) {
-          res.send(`File does not exist! ${id}.json`, 404)
+          res.send({ msg: `File does not exist! ${id}.json` }, 404)
         } else {
           fs.writeFile(path, JSON.stringify(body), function (err) {
             if (err) {
-              res.send(`We have error: ${err}`, 500)
+              res.send({ msg: `We have error: ${err}` }, 500)
             } else {
-              res.send(`Your detailes updated. URL: /${path}`, 200)
+              res.send({ msg: `Your detailes updated. URL: /${path}` }, 200)
             }
           })
         }
       })
     } else {
-      res.send(`Yo do not want anything! search and edit a file!`, 500)
+      res.send({ msg: `Yo do not want anything! search and edit a file!` }, 500)
     }
   } else {
-    res.send(`Key is not currect!`, 401)
+    res.send({ msg: `Key is not currect!` }, 401)
   }
 }
 
@@ -134,16 +131,19 @@ const deleteFile = (req, res) => {
 
       fs.unlink(path, function (err) {
         if (err) {
-          res.send(`We have error: ${err}`, 500)
+          res.send({ msg: `We have error: ${err}` }, 500)
         } else {
-          res.send(`Your detailes deleted. URL: /${path}`, 200)
+          res.send({ msg: `Your detailes deleted. URL: /${path}` }, 200)
         }
       })
     } else {
-      res.send(`Yo do not want anything! search and delete a file!`, 500)
+      res.send(
+        { msg: `Yo do not want anything! search and delete a file!` },
+        500
+      )
     }
   } else {
-    res.send(`Key is not currect!`, 401)
+    res.send({ msg: `Key is not currect!` }, 401)
   }
 }
 
@@ -157,13 +157,13 @@ const getText = (req, res) => {
 
     fs.readFile(path, (err, data) => {
       if (err) {
-        res.send(`File does not exist!`, 404)
+        res.send({ msg: `File does not exist!` }, 404)
       } else {
         res.send(`File info: ${data}`, 200)
       }
     })
   } else {
-    res.send(`Key is not currect!`, 401)
+    res.send({ msg: `Key is not currect!` }, 401)
   }
 }
 
@@ -182,19 +182,19 @@ const addText = (req, res) => {
 
     fs.readFile(path, (err, data) => {
       if (err) {
-        res.send(`We have error: ${err}`, 500)
+        res.send({ msg: `We have error: ${err}` }, 500)
       } else {
         fs.appendFile(path, newText, function (err) {
           if (err) {
-            res.send(`We have error: ${err}`, 500)
+            res.send({ msg: `We have error: ${err}` }, 500)
           } else {
-            res.send(`Your detailes inserted.`, 200)
+            res.send({ msg: `Your detailes inserted.` }, 200)
           }
         })
       }
     })
   } else {
-    res.send(`Key is not currect!`, 401)
+    res.send({ msg: `Key is not currect!` }, 401)
   }
 }
 
@@ -209,19 +209,19 @@ const deleteAllText = (req, res) => {
 
     fs.readFile(path, (err, data) => {
       if (err) {
-        res.send(`We have error: ${err}`, 404)
+        res.send({ msg: `We have error: ${err}` }, 500)
       } else {
         fs.writeFile(path, "", function (err) {
           if (err) {
-            res.send(`We have error: ${err}`, 500)
+            res.send({ msg: `We have error: ${err}` }, 500)
           } else {
-            res.send(`Your detailes deleted.`, 200)
+            res.send({ msg: `Your detailes deleted.` }, 200)
           }
         })
       }
     })
   } else {
-    res.send(`Key is not currect!`, 401)
+    res.send({ msg: `Key is not currect!` }, 401)
   }
 }
 
