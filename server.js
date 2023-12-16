@@ -227,7 +227,7 @@ app.post("/file/add", createFile)
 app.put("/file/edit", editFile)
 app.delete("/file/delete", deleteFile)
 
-app.get("/text/get", addText)
+app.get("/text/get", getText)
 app.post("/text/add", addText)
 app.delete("/text/delete-all", deleteAllText)
 
