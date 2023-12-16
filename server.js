@@ -225,7 +225,7 @@ const deleteAllText = (req, res) => {
   }
 }
 
-app.get("/", getFiles)
+app.get("/", mainRoute)
 
 app.get("/file/get-all", getFiles)
 app.get("/file/get", getTargetFile)
