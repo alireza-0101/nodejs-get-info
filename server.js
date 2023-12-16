@@ -27,6 +27,10 @@ const checkPin = (req) => {
   }
 }
 
+const mainRoute = (req, res) => {
+  res.send(`Welcome to my project...`, 401)
+}
+
 const getFiles = (req, res) => {
   if (checkPin(req)) {
     fs.readdir(`data`, (err, data) => {
@@ -220,6 +224,8 @@ const deleteAllText = (req, res) => {
     res.send(`Key is not currect!`, 401)
   }
 }
+
+app.get("/", getFiles)
 
 app.get("/file/get-all", getFiles)
 app.get("/file/get", getTargetFile)
