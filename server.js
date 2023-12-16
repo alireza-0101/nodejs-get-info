@@ -143,6 +143,26 @@ const deleteFile = (req, res) => {
   }
 }
 
+const getText = (req, res) => {
+  if (checkPin(req)) {
+    const {
+      query: { id },
+    } = req
+
+    const path = `data/info.txt`
+
+    fs.readFile(path, (err, data) => {
+      if (err) {
+        res.send(`File does not exist!`, 404)
+      } else {
+        res.send(`File info: ${data}`, 200)
+      }
+    })
+  } else {
+    res.send(`Key is not currect!`, 401)
+  }
+}
+
 const addText = (req, res) => {
   const {
     body,
@@ -207,6 +227,7 @@ app.post("/file/add", createFile)
 app.put("/file/edit", editFile)
 app.delete("/file/delete", deleteFile)
 
+app.get("/text/get", addText)
 app.post("/text/add", addText)
 app.delete("/text/delete-all", deleteAllText)
 
