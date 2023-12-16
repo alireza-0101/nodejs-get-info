@@ -133,10 +133,43 @@ const deleteFile = (req, res) => {
   }
 }
 
-app.get("/", getFiles)
-app.post("/", createFile)
-app.put("/", editFile)
-app.delete("/", deleteFile)
+const addText = (req, res) => {
+  const {
+    body,
+    query: { id },
+  } = req
+
+  let name = id || Math.ceil(Math.random() * 99999)
+
+  const path = `data/info.txt`
+
+  if (checkPin(req)) {
+    const newText = `\n${name}: ${JSON.stringify(body)}\n`
+
+    fs.readFile(path, (err, data) => {
+      if (err) {
+        res.send(`We have error: ${err}`, 500)
+      } else {
+        fs.appendFile(path, newText, function (err) {
+          if (err) {
+            res.send(`We have error: ${err}`, 500)
+          } else {
+            res.send(`Your detailes inserted.`, 200)
+          }
+        })
+      }
+    })
+  } else {
+    res.send(`Key is not currect!`, 401)
+  }
+}
+
+app.get("/file", getFiles)
+app.post("/file", createFile)
+app.put("/file", editFile)
+app.delete("/file", deleteFile)
+
+app.post("/text", addText)
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`)
