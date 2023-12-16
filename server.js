@@ -15,10 +15,12 @@ app.use(
 
 const checkPin = (req) => {
   let {
+    query: { id },
     headers: { authorization },
   } = req
 
-  if (authorization) {
+  // ! For protect info.txt file
+  if (authorization && !id?.includes("info")) {
     return authorization == 1527
   } else {
     return false
@@ -26,6 +28,23 @@ const checkPin = (req) => {
 }
 
 const getFiles = (req, res) => {
+  if (checkPin(req)) {
+    fs.readdir(`data`, (err, data) => {
+      if (err) {
+        res.send(`File does not exist!`, 404)
+      } else {
+        let fileList = []
+        data.forEach((file) => fileList.push(file))
+
+        res.send(`File list: ${fileList.join(" - ")}`, 200)
+      }
+    })
+  } else {
+    res.send(`Key is not currect!`, 401)
+  }
+}
+
+const getTargetFile = (req, res) => {
   if (checkPin(req)) {
     const {
       query: { id },
@@ -40,16 +59,7 @@ const getFiles = (req, res) => {
         }
       })
     } else {
-      fs.readdir(`data`, (err, data) => {
-        if (err) {
-          res.send(`File does not exist!`, 404)
-        } else {
-          let fileList = []
-          data.forEach((file) => fileList.push(file))
-
-          res.send(`File list: ${fileList.join(" - ")}`, 200)
-        }
-      })
+      res.send(`Send me param!`, 500)
     }
   } else {
     res.send(`Key is not currect!`, 401)
@@ -164,12 +174,41 @@ const addText = (req, res) => {
   }
 }
 
-app.get("/file", getFiles)
+const deleteAllText = (req, res) => {
+  if (checkPin(req)) {
+    const {
+      body,
+      query: { id },
+    } = req
+
+    const path = `data/info.txt`
+
+    fs.readFile(path, (err, data) => {
+      if (err) {
+        res.send(`We have error: ${err}`, 404)
+      } else {
+        fs.writeFile(path, "", function (err) {
+          if (err) {
+            res.send(`We have error: ${err}`, 500)
+          } else {
+            res.send(`Your detailes deleted.`, 200)
+          }
+        })
+      }
+    })
+  } else {
+    res.send(`Key is not currect!`, 401)
+  }
+}
+
+app.get("/file/get-all", getFiles)
+app.get("/file", getTargetFile)
 app.post("/file", createFile)
 app.put("/file", editFile)
 app.delete("/file", deleteFile)
 
 app.post("/text", addText)
+app.delete("/text/delete-all", deleteAllText)
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`)
